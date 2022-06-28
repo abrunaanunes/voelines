@@ -75,8 +75,8 @@ class AirplaneController extends Controller
      */
     public function edit($id)
     {
-        $item = $this->model::find($id);
-        return Inertia::render('Airplane/Form', [
+        $item = $this->model::where('id', $id)->first();
+        return Inertia::render('Airplane/Edit', [
             'item' => $item
         ]);
     }
@@ -90,6 +90,7 @@ class AirplaneController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $item = $this->model::where('id', $id)->first();
         $data = $request->validate([
             'airplane_model' => 'required|string',
             'seats' => 'required|integer',
@@ -97,17 +98,11 @@ class AirplaneController extends Controller
         ]);
 
         try {
-            $item = $this->model::find($id);
             $item->airplane_model = $data['airplane_model'];
             $item->seats = $data['seats'];
             $item->special_seats = $data['special_seats'];
             $item->save();
 
-            return redirect()->route('admin.avioes.index')->with('toast', json_encode([
-                'title' => 'Sucesso!',
-                'message' => 'Avião editado com sucesso.',
-                'type' => 'success'
-            ]));
         } catch (\Throwable $th) {
             return redirect()->back()->with('toast', json_encode([
                 'title' => 'Oops!',
@@ -115,8 +110,13 @@ class AirplaneController extends Controller
                 'type' => 'error'
             ]));
         }
+        return redirect()->route('admin.avioes.index')->with('toast', json_encode([
+            'title' => 'Sucesso!',
+            'message' => 'Avião editado com sucesso.',
+            'type' => 'success'
+        ]));
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *

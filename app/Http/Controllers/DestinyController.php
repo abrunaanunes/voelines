@@ -54,11 +54,6 @@ class DestinyController extends Controller
             $destiny->shipping_fee = $data['shipping_fee'];
             $destiny->save();
 
-            return redirect()->route('admin.destinos.index')->with('toast', json_encode([
-                'title' => 'Sucesso!',
-                'message' => 'Destino cadastrado com sucesso.',
-                'type' => 'success'
-            ]));
         } catch (\Throwable $e) {
             return redirect()->back()->with('toast', json_encode([
                 'title' => 'Oops!',
@@ -66,6 +61,11 @@ class DestinyController extends Controller
                 'type' => 'error'
             ]));
         }
+        return redirect()->route('admin.destinos.index')->with('toast', json_encode([
+            'title' => 'Sucesso!',
+            'message' => 'Destino cadastrado com sucesso.',
+            'type' => 'success'
+        ]));
     }
 
     /**
@@ -76,8 +76,8 @@ class DestinyController extends Controller
      */
     public function edit($id)
     {
-        $item = $this->model::find($id);
-        return Inertia::render('Destiny/Form', [
+        $item = $this->model::where('id', $id)->first();
+        return Inertia::render('Destiny/Edit', [
             'item' => $item
         ]);
     }
@@ -104,12 +104,7 @@ class DestinyController extends Controller
             $destiny->airport_name = $data['airport_name'];
             $destiny->shipping_fee = $data['shipping_fee'];
             $destiny->save();
-
-            return redirect()->route('admin.destinos.index')->with('toast', json_encode([
-                'title' => 'Sucesso!',
-                'message' => 'Destino editado com sucesso.',
-                'type' => 'success'
-            ]));
+            
         } catch (\Throwable $e) {
             return redirect()->back()->with('toast', json_encode([
                 'title' => 'Oops!',
@@ -117,6 +112,11 @@ class DestinyController extends Controller
                 'type' => 'error'
             ]));
         }
+        return redirect()->route('admin.destinos.index')->with('toast', json_encode([
+            'title' => 'Sucesso!',
+            'message' => 'Destino editado com sucesso.',
+            'type' => 'success'
+        ]));
     }
 
     /**

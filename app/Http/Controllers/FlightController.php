@@ -75,11 +75,6 @@ class FlightController extends Controller
 
             $flight->save();
 
-            return redirect()->route('admin.voos.index')->with('toast', json_encode([
-                'title' => 'Sucesso!',
-                'message' => 'Voo cadastrado com sucesso.',
-                'type' => 'success'
-            ]));
         } catch (\Throwable $e) {
             return redirect()->route('admin.voos.index')->with('toast', json_encode([
                 'title' => 'Oops!',
@@ -87,6 +82,11 @@ class FlightController extends Controller
                 'type' => 'error'
             ]));
         }
+        return redirect()->route('admin.voos.index')->with('toast', json_encode([
+            'title' => 'Sucesso!',
+            'message' => 'Voo cadastrado com sucesso.',
+            'type' => 'success'
+        ]));
     }
 
     /**
@@ -124,9 +124,9 @@ class FlightController extends Controller
             'destiny_id' => 'required|integer',
         ]);
 
+        $flight = $this->model::find($id);
+       
         try {
-            $flight = $this->model::find($id);
-
             $flight->departure_date = $data['departure_date'];
             $flight->value = $data['value'];
             $flight->airplane_id = $data['airplane_id'];
@@ -145,11 +145,6 @@ class FlightController extends Controller
 
             $flight->save();
 
-            return redirect()->route('admin.voos.index')->with('toast', json_encode([
-                'title' => 'Sucesso!',
-                'message' => 'Voo editado com sucesso.',
-                'type' => 'success'
-            ]));
         } catch (\Throwable $e) {
             return redirect()->route('admin.voos.index')->with('toast', json_encode([
                 'title' => 'Oops!',
@@ -157,6 +152,11 @@ class FlightController extends Controller
                 'type' => 'error'
             ]));
         }
+        return redirect()->route('admin.voos.index')->with('toast', json_encode([
+            'title' => 'Sucesso!',
+            'message' => 'Voo editado com sucesso.',
+            'type' => 'success'
+        ]));
     }
 
     /**
